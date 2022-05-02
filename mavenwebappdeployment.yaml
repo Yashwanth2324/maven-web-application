@@ -1,34 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mavenwebappdeployment
+  name: mavenwebappdeploy
+  namespace: kube-ns
 spec:
   replicas: 2
   strategy:
-    type: Recreate
+     type: Recreate
   selector:
-    matchLabels:
-      app: mavenwebapp
+     matchLabels:
+       app: mavenwebapp
   template:
-    metadata:
-      name: mavenwebapppod
-      labels:
-        app: mavenwebapp
-    spec:
-      containers:
-        - name: mavenwebappcontainer
-          image: 31032022/maven-web-application:1
-          ports:
-          - containerPort: 8080
+     metadata:
+       name: mavenwebapppod
+       labels:
+         app: mavenwebapp
+     spec:
+       containers:
+       - name: mavenwebappcontainer
+         image: 31032022/maven-web-application:1
+         ports:
+         - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: mavenwebappsvc
+  namespace: kube-ns
 spec:
-  selector:
-    app: mavenwebapp
   type: NodePort
+  selector:
+     app: mavenwebapp
   ports:
   - port: 80
     targetPort: 8080
